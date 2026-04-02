@@ -122,8 +122,9 @@ a {
   position: relative;
   z-index: 2;
   font-family: var(--font-display);
-  font-size: clamp(5rem, 16vw, 14rem);
+  font-size: clamp(3rem, 16vw, 14rem);
   line-height: 1;
+  padding: 0 1rem;
 }
 
 /* Individual reel slot */
@@ -1369,5 +1370,96 @@ a {
   .hero-v2-bottom {
     margin-top: 2rem;
     padding-bottom: 1.5rem;
+  }
+}
+
+/* ── Loading screen mobile responsive ── */
+@media (max-width: 720px) {
+  .loading-screen {
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+
+  .loading-glow {
+    width: 300px;
+    height: 300px;
+  }
+
+  .vault-reels-row {
+    gap: 0.15em;
+  }
+
+  .vault-reel-window {
+    border-width: 1px;
+  }
+
+  .vault-notch {
+    width: 4px;
+    height: 2px;
+  }
+
+  .vault-notch-left {
+    left: -6px;
+  }
+
+  .vault-notch-right {
+    right: -6px;
+  }
+
+  .loading-bar-track {
+    width: 200px;
+  }
+
+  .loading-percent {
+    font-size: 0.9rem;
+    letter-spacing: 0.3em;
+  }
+
+  .loading-tagline {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+  }
+
+  .loading-lines {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .loading-screen {
+    gap: 1.2rem;
+  }
+
+  .vault-reels-row {
+    gap: 0.08em;
+    font-size: clamp(2.5rem, 14vw, 5rem);
+  }
+
+  .loading-bar-track {
+    width: 160px;
+  }
+
+  .loading-percent {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+  }
+}
+
+/* ── Disable scroll parallax on small screens ── */
+@media (max-width: 720px) {
+  .hero-v2-banner-bg {
+    display: none;
+  }
+
+  .hero-v2-image-wrap {
+    margin-top: 0;
+  }
+
+  .hero-v2-3d-bg {
+    display: none;
+  }
+
+  .hero-v2-img {
+    height: auto;
   }
 }

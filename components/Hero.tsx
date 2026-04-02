@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
@@ -27,6 +27,16 @@ const smoothConfig = { stiffness: 50, damping: 20, mass: 0.5 };
 
 export default function Hero() {
     const sectionRef = useRef<HTMLElement>(null);
+
+    // Detect mobile (<720px) to disable scroll animations
+    const [isMobile, setIsMobile] = useState(false);
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 720);
+        check();
+        window.addEventListener('resize', check);
+        return () => window.removeEventListener('resize', check);
+    }, []);
+
     const { scrollYProgress } = useScroll({
         target: sectionRef,
         offset: ['start start', 'end start'],
@@ -35,19 +45,21 @@ export default function Hero() {
     // Smooth the scroll progress itself first
     const smoothProgress = useSpring(scrollYProgress, smoothConfig);
 
-    // Then derive transforms from the smoothed value
-    const xLeft = useTransform(smoothProgress, [0, 1], ['0%', '-15%']);
-    const xRight = useTransform(smoothProgress, [0, 1], ['0%', '15%']);
-    const textureY = useTransform(smoothProgress, [0, 1], ['0%', '30%']);
+    // Derive transforms — disabled on mobile (static '0%')
+    const xLeft = useTransform(smoothProgress, [0, 1], isMobile ? ['0%', '0%'] : ['0%', '-15%']);
+    const xRight = useTransform(smoothProgress, [0, 1], isMobile ? ['0%', '0%'] : ['0%', '15%']);
+    const textureY = useTransform(smoothProgress, [0, 1], isMobile ? ['0%', '0%'] : ['0%', '30%']);
 
-    // Track scroll progress as a number for Three.js
+    // Track scroll progress as a number for Three.js (disabled on mobile)
     const [scroll3D, setScroll3D] = useState(0);
-    useMotionValueEvent(smoothProgress, 'change', (v: number) => setScroll3D(v));
+    useMotionValueEvent(smoothProgress, 'change', (v: number) => {
+        if (!isMobile) setScroll3D(v);
+    });
 
     return (
         <section className="hero-v2" ref={sectionRef}>
-            {/* 3D background — floating wireframe shapes */}
-            <HeroBackground3D scrollProgress={scroll3D} />
+            {/* 3D background — floating wireframe shapes (hidden on mobile) */}
+            {!isMobile && <HeroBackground3D scrollProgress={scroll3D} />}
 
             {/* Noise texture overlay — moves with scroll */}
             <motion.div className="hero-v2-texture" style={{ y: textureY }} aria-hidden="true" />
