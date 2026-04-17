@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════
    DEMON — Premium Scroll-linked Canvas Engine
-   Canvas image-sequence playback, storytelling beats,
-   scroll-reveal, and interactive UI logic
+   Optimised: progressive frame loading so page is interactive
+   after just the first batch — not after all 240 frames.
    ═══════════════════════════════════════════════════════════════ */
 
 (function () {
@@ -11,10 +11,16 @@
     const CONFIG = {
         totalFrames: 240,
         framePath: 't-shirt/ezgif-frame-',
-        frameExt: '.png',
-        heroScrollMultiplier: 1, // 1 = use full hero height
-        preloadBatchSize: 10,
-        // Storytelling beat ranges (as % of hero scroll)
+        frameExt: '.webp',
+        heroScrollMultiplier: 1,
+        // How many frames to preload before showing the page
+        initialBatch: 10,
+        // How many frames to load per background batch
+        batchSize: 20,
+        // Delay between background batches (ms) — keeps bandwidth free for other assets
+        batchDelay: 150,
+        // How many frames ahead of current position to keep preloaded
+        lookahead: 30,
         beats: [
             { id: 'beat-1', start: 0.00, end: 0.15, peak: 0.07  },
             { id: 'beat-2', start: 0.14, end: 0.40, peak: 0.27  },
@@ -26,7 +32,7 @@
 
     // ─── STATE ───
     const state = {
-        images: [],
+        images: new Array(CONFIG.totalFrames).fill(null),
         loadedCount: 0,
         currentFrame: 0,
         canvasReady: false,
@@ -35,6 +41,7 @@
         ctx: null,
         rafId: null,
         lastScrollY: -1,
+        allLoaded: false,
     };
 
     // ─── LOADING SCREEN ───
@@ -69,35 +76,79 @@
         }
     }
 
-    // ─── IMAGE PRELOADING ───
+    // ─── IMAGE LOADING ───
     function getFramePath(index) {
-        const num = String(index).padStart(3, '0');
+        const num = String(index + 1).padStart(3, '0'); // frames are 1-indexed files
         return CONFIG.framePath + num + CONFIG.frameExt;
     }
 
-    function preloadImages() {
+    /**
+     * Load a single frame by 0-based index.
+     * Returns a Promise that resolves when the image is loaded.
+     */
+    function loadFrame(index) {
         return new Promise((resolve) => {
-            let loaded = 0;
-            const total = CONFIG.totalFrames;
-
-            for (let i = 1; i <= total; i++) {
-                const img = new Image();
-                img.src = getFramePath(i);
-
-                img.onload = img.onerror = () => {
-                    loaded++;
-                    state.loadedCount = loaded;
-                    const percent = (loaded / total) * 100;
-                    updateLoadingProgress(percent);
-
-                    if (loaded === total) {
-                        resolve();
-                    }
-                };
-
-                state.images[i - 1] = img;
+            if (state.images[index] && state.images[index].complete) {
+                return resolve(state.images[index]);
             }
+            const img = new Image();
+            img.onload = () => {
+                state.images[index] = img;
+                state.loadedCount++;
+                resolve(img);
+            };
+            img.onerror = () => {
+                state.images[index] = null;
+                state.loadedCount++;
+                resolve(null);
+            };
+            img.src = getFramePath(index);
         });
+    }
+
+    /**
+     * Load a range of frames [start, end) in parallel.
+     */
+    function loadRange(start, end) {
+        const promises = [];
+        for (let i = start; i < end && i < CONFIG.totalFrames; i++) {
+            if (!state.images[i]) {
+                promises.push(loadFrame(i));
+            }
+        }
+        return Promise.all(promises);
+    }
+
+    /**
+     * PHASE 1 — Load just the first N frames so the page can show.
+     */
+    async function loadInitialBatch() {
+        const n = Math.min(CONFIG.initialBatch, CONFIG.totalFrames);
+        await loadRange(0, n);
+        const pct = Math.round((n / CONFIG.totalFrames) * 100);
+        updateLoadingProgress(pct);
+    }
+
+    /**
+     * PHASE 2 — Load the rest in small batches in the background,
+     * yielding between each batch so scroll/paint stays smooth.
+     */
+    async function loadRemainingBatches() {
+        const start = CONFIG.initialBatch;
+
+        for (let i = start; i < CONFIG.totalFrames; i += CONFIG.batchSize) {
+            const end = Math.min(i + CONFIG.batchSize, CONFIG.totalFrames);
+            await loadRange(i, end);
+
+            const pct = Math.round((state.loadedCount / CONFIG.totalFrames) * 100);
+            // Only update the bar if the loading screen is still visible
+            updateLoadingProgress(pct);
+
+            // Yield to the browser between batches
+            await new Promise((r) => setTimeout(r, CONFIG.batchDelay));
+        }
+
+        state.allLoaded = true;
     }
 
     // ─── CANVAS SETUP ───
@@ -122,41 +173,44 @@
         state.canvas.style.height = h + 'px';
         state.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-        // Redraw current frame
         drawFrame(state.currentFrame);
     }
 
     // ─── FRAME RENDERING ───
     function drawFrame(index) {
         if (!state.canvasReady) return;
-        const img = state.images[index];
-        if (!img || !img.complete || img.naturalWidth === 0) return;
+
+        // Find the nearest loaded frame to avoid blank canvas during gaps
+        let img = state.images[index];
+        if (!img || !img.complete || img.naturalWidth === 0) {
+            // Search backwards for the nearest loaded frame
+            for (let k = index - 1; k >= 0; k--) {
+                if (state.images[k] && state.images[k].complete && state.images[k].naturalWidth > 0) {
+                    img = state.images[k];
+                    break;
+                }
+            }
+        }
+        if (!img) return;
 
         const ctx = state.ctx;
         const cw = window.innerWidth;
         const ch = window.innerHeight;
 
-        // Clear
         ctx.clearRect(0, 0, cw, ch);
-
-        // Fill background to match page
         ctx.fillStyle = '#050505';
         ctx.fillRect(0, 0, cw, ch);
 
-        // Draw image — cover fit, centered
         const imgAspect = img.naturalWidth / img.naturalHeight;
         const canvasAspect = cw / ch;
-
         let drawW, drawH, drawX, drawY;
 
         if (canvasAspect > imgAspect) {
-            // Canvas is wider — fit width
             drawW = cw;
             drawH = cw / imgAspect;
             drawX = 0;
             drawY = (ch - drawH) / 2;
         } else {
-            // Canvas is taller — fit height
             drawH = ch;
             drawW = ch * imgAspect;
             drawX = (cw - drawW) / 2;
@@ -170,16 +224,11 @@
     function getHeroScrollProgress() {
         const hero = state.heroSection;
         if (!hero) return 0;
-
         const rect = hero.getBoundingClientRect();
         const heroHeight = hero.offsetHeight - window.innerHeight;
-
         if (heroHeight <= 0) return 0;
-
         const scrolled = -rect.top;
-        const progress = Math.max(0, Math.min(1, scrolled / heroHeight));
-
-        return progress;
+        return Math.max(0, Math.min(1, scrolled / heroHeight));
     }
 
     function onScroll() {
@@ -189,14 +238,12 @@
 
     function processScroll() {
         state.rafId = null;
-
         const scrollY = window.scrollY;
         if (scrollY === state.lastScrollY) return;
         state.lastScrollY = scrollY;
 
         const progress = getHeroScrollProgress();
 
-        // ─ Update canvas frame ─
         const frameIndex = Math.min(
             CONFIG.totalFrames - 1,
             Math.floor(progress * (CONFIG.totalFrames - 1))
@@ -207,10 +254,7 @@
             drawFrame(frameIndex);
         }
 
-        // ─ Update storytelling beats ─
         updateBeats(progress);
-
-        // ─ Update navbar ─
         updateNavbar(scrollY);
     }
 
@@ -220,36 +264,24 @@
             const el = document.getElementById(beat.id);
             if (!el) return;
 
-            // Calculate visibility
-            const fadeInStart = beat.start;
-            const fadeInEnd = beat.start + (beat.peak - beat.start) * 0.5;
-            const fadeOutStart = beat.peak + (beat.end - beat.peak) * 0.5;
-            const fadeOutEnd = beat.end;
+            const fadeInStart  = beat.start;
+            const fadeInEnd    = beat.start + (beat.peak - beat.start) * 0.5;
+            const fadeOutStart = beat.peak  + (beat.end  - beat.peak)  * 0.5;
+            const fadeOutEnd   = beat.end;
 
             let opacity = 0;
-
             if (progress >= fadeInStart && progress <= fadeInEnd) {
-                // Fading in
                 opacity = (progress - fadeInStart) / (fadeInEnd - fadeInStart);
             } else if (progress > fadeInEnd && progress < fadeOutStart) {
-                // Fully visible
                 opacity = 1;
             } else if (progress >= fadeOutStart && progress <= fadeOutEnd) {
-                // Fading out
                 opacity = 1 - (progress - fadeOutStart) / (fadeOutEnd - fadeOutStart);
             }
 
             opacity = Math.max(0, Math.min(1, opacity));
-
             el.style.opacity = opacity;
             el.style.pointerEvents = opacity > 0.5 ? 'auto' : 'none';
-
-            // Toggle "visible" class for CSS transitions
-            if (opacity > 0.1) {
-                el.classList.add('visible');
-            } else {
-                el.classList.remove('visible');
-            }
+            el.classList.toggle('visible', opacity > 0.1);
         });
     }
 
@@ -257,20 +289,14 @@
     function updateNavbar(scrollY) {
         const navbar = document.getElementById('navbar');
         if (!navbar) return;
-
-        if (scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
+        navbar.classList.toggle('scrolled', scrollY > 50);
     }
 
     // ─── MOBILE MENU ───
     function setupMobileMenu() {
         const toggle = document.getElementById('nav-mobile-toggle');
-        const menu = document.getElementById('mobile-menu');
-        const links = menu ? menu.querySelectorAll('.mobile-link') : [];
-
+        const menu   = document.getElementById('mobile-menu');
+        const links  = menu ? menu.querySelectorAll('.mobile-link') : [];
         if (!toggle || !menu) return;
 
         toggle.addEventListener('click', () => {
@@ -278,7 +304,6 @@
             menu.classList.toggle('active');
             document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
         });
-
         links.forEach((link) => {
             link.addEventListener('click', () => {
                 toggle.classList.remove('active');
@@ -290,7 +315,6 @@
 
     // ─── INTERACTIVE SELECTORS ───
     function setupSelectors() {
-        // Color swatches
         const colorBtns = document.querySelectorAll('.color-swatch');
         colorBtns.forEach((btn) => {
             btn.addEventListener('click', () => {
@@ -299,7 +323,6 @@
             });
         });
 
-        // Size buttons
         const sizeBtns = document.querySelectorAll('.size-btn');
         sizeBtns.forEach((btn) => {
             btn.addEventListener('click', () => {
@@ -309,13 +332,12 @@
         });
     }
 
-    // ─── SCROLL-REVEAL FOR BELOW-HERO SECTIONS ───
+    // ─── SCROLL-REVEAL ───
     function setupScrollReveal() {
-        const revealTargets = document.querySelectorAll(
+        const targets = document.querySelectorAll(
             '.section-header, .feature-card, .collection-visual, .collection-info, ' +
             '.spec-item, .lookbook-item, .cta-content, .footer-top, .footer-bottom'
         );
-
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -325,16 +347,12 @@
                     }
                 });
             },
-            {
-                threshold: 0.1,
-                rootMargin: '0px 0px -60px 0px',
-            }
+            { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
         );
-
-        revealTargets.forEach((el) => observer.observe(el));
+        targets.forEach((el) => observer.observe(el));
     }
 
-    // ─── SMOOTH SCROLL FOR NAV LINKS ───
+    // ─── SMOOTH SCROLL ───
     function setupSmoothScroll() {
         const navLinks = document.querySelectorAll('.nav-link, .mobile-link');
         navLinks.forEach((link) => {
@@ -343,14 +361,11 @@
                 if (href && href.startsWith('#')) {
                     e.preventDefault();
                     const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
+                    if (target) target.scrollIntoView({ behavior: 'smooth' });
                 }
             });
         });
 
-        // Active state tracking
         const sections = document.querySelectorAll('section[id]');
         const sectionObserver = new IntersectionObserver(
             (entries) => {
@@ -368,7 +383,6 @@
             },
             { threshold: 0.3 }
         );
-
         sections.forEach((section) => sectionObserver.observe(section));
     }
 
@@ -389,31 +403,24 @@
         setupSelectors();
         setupSmoothScroll();
 
-        // Draw first frame immediately if available
+        // PHASE 1: Load only the first 10 frames — fast, shows page quickly
+        await loadInitialBatch();
+
+        // Show the page as soon as the first batch is ready
         drawFrame(0);
-
-        // Preload all frames
-        await preloadImages();
-
-        // Draw first frame again after load
-        drawFrame(0);
-
-        // Hide loader
         hideLoadingScreen();
 
-        // Start scroll-listening
+        // Start scroll immediately — fallback draws nearest loaded frame if ahead
         window.addEventListener('scroll', onScroll, { passive: true });
-
-        // Setup reveal animations for below-hero content
         setupScrollReveal();
-
-        // Initial scroll process (in case user refreshed mid-page)
         processScroll();
 
-        console.log('[DEMON] Ready — 240 frames loaded, scroll engine active.');
+        // PHASE 2: Load the rest quietly in the background
+        loadRemainingBatches();
+
+        console.log('[DEMON] Ready — initial batch shown, remaining frames loading in background.');
     }
 
-    // ─── BOOT ───
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
