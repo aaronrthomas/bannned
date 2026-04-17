@@ -336,6 +336,19 @@ img {
     background: var(--bg-primary);
 }
 
+/* Mask the Veo watermark (bottom-right corner of every frame) */
+.hero-canvas-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 120px;
+    height: 60px;
+    background: var(--bg-primary);
+    z-index: 2;
+    pointer-events: none;
+}
+
 #hero-canvas {
     width: 100%;
     height: 100%;
