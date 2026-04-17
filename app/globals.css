@@ -686,7 +686,7 @@ a {
 .flip-card {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4.4;
+  aspect-ratio: 3 / 5;
   transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
   transform-style: preserve-3d;
 }
@@ -770,7 +770,9 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2rem 1.5rem;
+  /* extra bottom pad keeps content above the absolute-positioned hint */
+  padding: clamp(1.2rem, 4%, 2rem) clamp(0.9rem, 5%, 1.6rem) 3rem;
+  overflow: hidden;
 }
 
 .flip-back-content {
@@ -778,62 +780,67 @@ a {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 0.6rem;
+  gap: clamp(0.45rem, 1.8cqh, 0.75rem);
   width: 100%;
 }
 
 .flip-back-tag {
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
+  font-size: clamp(0.5rem, 1.8cqw, 0.62rem);
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--accent);
   font-weight: 600;
   background: rgba(200, 184, 154, 0.12);
-  padding: 0.3rem 0.9rem;
+  padding: 0.25rem 0.75rem;
   border-radius: 20px;
+  white-space: nowrap;
 }
 
 .flip-back-name {
   font-family: var(--font-display);
-  font-size: 2rem;
+  font-size: clamp(1.1rem, 6cqw, 2rem);
   letter-spacing: 0.04em;
   line-height: 1;
-  margin-top: 0.3rem;
+  margin-top: 0.2rem;
 }
 
 .flip-back-divider {
-  width: 40px;
+  width: 32px;
   height: 1px;
   background: rgba(255, 255, 255, 0.15);
-  margin: 0.4rem 0;
+  margin: 0.2rem 0;
 }
 
 .flip-back-desc {
-  font-size: 0.78rem;
-  line-height: 1.7;
+  font-size: clamp(0.62rem, 2cqw, 0.78rem);
+  line-height: 1.55;
   color: rgba(255, 255, 255, 0.6);
-  max-width: 260px;
+  max-width: 100%;
+  /* Limit to 3 lines on small cards */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .flip-back-price {
-  font-size: 1.2rem;
+  font-size: clamp(0.9rem, 3cqw, 1.2rem);
   font-weight: 700;
   letter-spacing: 0.04em;
-  margin-top: 0.3rem;
+  margin-top: 0.1rem;
 }
 
 .flip-buy-btn {
   width: 100%;
-  max-width: 220px;
   background: var(--white);
   color: var(--black);
   border: none;
-  padding: 0.85rem 2rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
+  padding: clamp(0.55rem, 2cqh, 0.85rem) 1rem;
+  font-size: clamp(0.6rem, 1.8cqw, 0.72rem);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   font-weight: 700;
-  margin-top: 0.6rem;
+  margin-top: 0.4rem;
   position: relative;
   overflow: hidden;
   transition: background 0.3s, color 0.3s, transform 0.2s;
@@ -867,14 +874,14 @@ a {
 }
 
 .flip-more-link {
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
+  font-size: clamp(0.58rem, 1.6cqw, 0.72rem);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.45);
   text-decoration: none;
   position: relative;
   transition: color 0.3s;
-  margin-top: 0.2rem;
+  margin-top: 0.15rem;
 }
 
 .flip-more-link::after {
@@ -899,12 +906,12 @@ a {
 /* ── Flip Hint ── */
 .flip-hint {
   position: absolute;
-  bottom: 0.6rem;
-  right: 0.8rem;
+  bottom: 0.5rem;
+  right: 0.6rem;
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  font-size: 0.6rem;
+  gap: 0.3rem;
+  font-size: 0.55rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(0, 0, 0, 0.35);
@@ -926,7 +933,12 @@ a {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
 
-/* ── Responsive ── */
+/* Enable container queries for the flip card wrapper */
+.flip-card-wrapper {
+  container-type: inline-size;
+}
+
+/* ── Responsive grid ── */
 @media (max-width: 900px) {
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -938,7 +950,17 @@ a {
   .products-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
-    max-width: 340px;
+    max-width: 400px;
+    margin-inline: auto;
+  }
+
+  /* On single-column, cards are wide — give back face more breathing room */
+  .flip-card-back {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .flip-back-desc {
+    -webkit-line-clamp: 4;
   }
 }
 
@@ -2350,3 +2372,192 @@ a {
     font-size: clamp(1.5rem, 8vw, 3rem);
   }
 }
+
+/* ═══════════════════════════════════════════════════════
+   FULL MOBILE RESPONSIVE — consolidated fixes
+   ═══════════════════════════════════════════════════════ */
+
+/* ── 1024px — Tablet landscape ── */
+@media (max-width: 1024px) {
+  .navbar { padding: 1rem 2rem; }
+
+  .accessories-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+}
+
+/* ── 768px — Tablet portrait / large phones ── */
+@media (max-width: 768px) {
+  /* ─ Navbar ─ */
+  .hamburger-btn { display: flex; }
+  .navbar-links  { display: none;  }
+  .navbar-icons  { display: none;  }   /* hide search/cart — reclaim space */
+  .navbar        { padding: 1rem 1.2rem; }
+  .navbar-logo   { font-size: 1.4rem; }
+
+  /* ─ Hero V1 (grid layout) ─ */
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: 70vh;
+  }
+  .hero-right { display: none; }
+  .hero-left  { padding: 3rem 1.5rem; }
+  .hero-title { font-size: clamp(3.5rem, 14vw, 6rem); }
+  .hero-subtitle { max-width: 100%; }
+  .hero-cta { flex-wrap: wrap; gap: 0.75rem; }
+
+  /* ─ Hero V2 ─ */
+  .hero-v2 { min-height: auto; padding-top: 60px; }
+  .hero-v2-title,
+  .hero-v2-outline-title { font-size: clamp(4.5rem, 18vw, 8rem); }
+  .hero-v2-image-wrap { width: 90%; margin-top: -2vw; }
+  .hero-v2-img        { height: auto; max-height: 65vh; }
+  .hero-v2-cta-block  { left: 0; bottom: 1rem; padding: 0.9rem 1.2rem; }
+  .hero-v2-socials    { gap: 1.5rem; flex-wrap: wrap; }
+  .hero-v2-bottom     { margin-top: 2rem; padding-bottom: 1.5rem; }
+  .hero-v2-banner-bg  { display: none; }   /* disable parallax rows */
+
+  /* ─ Accessories ─ */
+  .accessories-section { padding: 3rem 1.2rem; }
+  .accessories-grid    { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+
+  /* ─ Collection / products ─ */
+  .collection-section  { padding: 3rem 1.2rem; }
+  .section-title       { font-size: clamp(2.5rem, 8vw, 4rem); }
+  .section-subtitle    { font-size: 0.75rem; padding: 0 0.5rem; }
+  .collection-filters  { gap: 0.4rem; margin-bottom: 2rem; }
+  .filter-btn          { padding: 0.4rem 1rem; font-size: 0.65rem; }
+  .products-grid       { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+
+  /* ─ Lookbook ─ */
+  .lookbook-section { padding: 3rem 1.2rem; }
+  .lookbook-grid    { grid-template-columns: 1fr; gap: 1.5rem; }
+  .lookbook-number  { font-size: 3.5rem; }
+  .lookbook-info    { padding: 1.5rem; }
+  .lookbook-category{ font-size: 1.6rem; }
+
+  /* ─ Full Winters ─ */
+  .winters-section  { padding: 3rem 1.2rem; }
+  .winters-title    { font-size: clamp(3rem, 10vw, 5rem); margin-bottom: 2rem; }
+  .winters-content  { grid-template-columns: 1fr; gap: 2rem; }
+  .winters-text     { text-align: center; }
+  .winters-text h3  { font-size: 2rem; }
+
+  /* ─ Newsletter ─ */
+  .newsletter-section { padding: 3.5rem 1.2rem; }
+  .newsletter-section::before { font-size: 8rem; }
+  .newsletter-form {
+    flex-direction: column;
+    gap: 0;
+    max-width: 100%;
+  }
+  .newsletter-input {
+    border-right: 1px solid rgba(255,255,255,0.2);
+    border-bottom: none;
+    width: 100%;
+  }
+  .newsletter-submit { width: 100%; min-height: 48px; }
+
+  /* ─ Social bar ─ */
+  .social-bar { gap: 1.5rem; flex-wrap: wrap; padding: 1rem 1rem; }
+
+  /* ─ Footer ─ */
+  .footer         { padding: 3rem 1.2rem 1.5rem; }
+  .footer-content { grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+  .footer-brand   { font-size: 2.2rem; }
+  .footer-bottom  { flex-direction: column; gap: 0.5rem; text-align: center; padding-top: 1.5rem; }
+}
+
+/* ── 600px — Small phones ── */
+@media (max-width: 600px) {
+  /* ─ Navbar ─ */
+  .navbar       { padding: 0.9rem 1rem; }
+  .navbar-logo  { font-size: 1.2rem; }
+
+  /* ─ Sections: tighter horizontal padding ─ */
+  .accessories-section,
+  .collection-section,
+  .lookbook-section,
+  .winters-section,
+  .newsletter-section { padding-left: 1rem; padding-right: 1rem; }
+
+  /* ─ Accessories → 1 col on very small screens ─ */
+  .accessories-grid { grid-template-columns: 1fr; }
+  .accessory-card   { aspect-ratio: 16/10; }
+
+  /* ─ Products ─ */
+  .products-grid   { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .section-title   { font-size: clamp(2rem, 10vw, 3rem); }
+  .section-subtitle{ font-size: 0.7rem; }
+
+  /* ─ Hero V2 typography ─ */
+  .hero-v2-title,
+  .hero-v2-outline-title { font-size: clamp(3.5rem, 16vw, 5rem); }
+  .hero-v2-socials       { gap: 1rem; }
+  .hero-v2-social-link   { font-size: 0.6rem; letter-spacing: 0.15em; }
+  .hero-v2-tagline       { font-size: 0.6rem; letter-spacing: 0.2em; padding: 0 1rem; }
+
+  /* ─ Buttons — touch-friendly 44px minimum ─ */
+  .btn-primary,
+  .btn-ghost,
+  .btn-outlined { padding: 0.8rem 1.6rem; font-size: 0.7rem; min-height: 44px; }
+  .filter-btn   { min-height: 40px; }
+
+  /* ─ Newsletter ─ */
+  .newsletter-title { font-size: clamp(2rem, 7vw, 3rem); }
+  .newsletter-section::before { font-size: 5rem; }
+
+  /* ─ Footer ─ */
+  .footer-content { grid-template-columns: 1fr; gap: 1.5rem; }
+  .footer-col h4  { margin-bottom: 0.8rem; }
+}
+
+/* ── 480px — Narrow phones ── */
+@media (max-width: 480px) {
+  /* ─ Navbar ─ */
+  .navbar      { padding: 0.75rem 0.9rem; }
+  .navbar-logo { font-size: 1.1rem; }
+
+  /* ─ Products → single column ─ */
+  .products-grid {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+    margin-inline: auto;
+    gap: 1.2rem;
+  }
+
+  /* Back face: give more room on tall single-column cards */
+  .flip-card-back { padding: 1.6rem 1.2rem 3rem; }
+  .flip-back-desc { -webkit-line-clamp: 4; }
+
+  /* ─ Hero CTA block ─ */
+  .hero-v2-cta-block {
+    position: static;
+    border-radius: 0;
+    margin: 0.5rem auto 0;
+    width: 90%;
+  }
+
+  /* ─ Winters ─ */
+  .winters-title { font-size: clamp(2.2rem, 12vw, 3.5rem); }
+  .winters-text h3 { font-size: 1.6rem; }
+
+  /* ─ Lookbook ─ */
+  .lookbook-category { font-size: 1.4rem; }
+  .lookbook-info     { padding: 1rem; }
+
+  /* ─ Social bar ─ */
+  .social-bar { gap: 1rem; }
+  .social-link { font-size: 0.6rem; }
+
+  /* ─ Footer ─ */
+  .footer { padding: 2.5rem 1rem 1.2rem; }
+  .footer-brand { font-size: 1.8rem; }
+  .footer-copy  { font-size: 0.65rem; }
+}
