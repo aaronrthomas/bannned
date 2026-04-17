@@ -29,7 +29,8 @@ export default function Hero() {
     const sectionRef = useRef<HTMLElement>(null);
 
     // Detect mobile (<720px) to disable scroll animations
-    const [isMobile, setIsMobile] = useState(false);
+    // Start as null so server + first client render are identical (no hydration mismatch)
+    const [isMobile, setIsMobile] = useState<boolean | null>(null);
     useEffect(() => {
         const check = () => setIsMobile(window.innerWidth < 720);
         check();
@@ -59,7 +60,7 @@ export default function Hero() {
     return (
         <section className="hero-v2" ref={sectionRef}>
             {/* 3D background — floating wireframe shapes (hidden on mobile) */}
-            {!isMobile && <HeroBackground3D scrollProgress={scroll3D} />}
+            {isMobile === false && <HeroBackground3D scrollProgress={scroll3D} />}
 
             {/* Noise texture overlay — moves with scroll */}
             <motion.div className="hero-v2-texture" style={{ y: textureY }} aria-hidden="true" />
