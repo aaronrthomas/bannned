@@ -44,16 +44,16 @@ type PosCfg = { x: number; rotY: number; scale: number; opacity: number; zIndex:
 function getPos(rel: number): PosCfg {
     const abs = Math.abs(rel);
     const sign = rel === 0 ? 1 : Math.sign(rel);
-    if (abs === 0) return { x: 0,           rotY: 0,  scale: 1.00, opacity: 1.00, zIndex: 10 };
-    if (abs === 1) return { x: sign * 255,  rotY: 0,  scale: 0.87, opacity: 0.86, zIndex: 8  };
-    if (abs === 2) return { x: sign * 470,  rotY: 0,  scale: 0.72, opacity: 0.62, zIndex: 6  };
-    return              { x: sign * 660,  rotY: 0,  scale: 0.58, opacity: 0.30, zIndex: 4  };
+    if (abs === 0) return { x: 0, rotY: 0, scale: 1.00, opacity: 1.00, zIndex: 10 };
+    if (abs === 1) return { x: sign * 255, rotY: 0, scale: 0.87, opacity: 0.86, zIndex: 8 };
+    if (abs === 2) return { x: sign * 470, rotY: 0, scale: 0.72, opacity: 0.62, zIndex: 6 };
+    return { x: sign * 660, rotY: 0, scale: 0.58, opacity: 0.30, zIndex: 4 };
 }
 
 export default function Hero() {
     const sectionRef = useRef<HTMLElement>(null);
 
-    /* Mobile detect */
+    // Detect mobile (<720px) to disable scroll animations
     const [isMobile, setIsMobile] = useState(false);
     useEffect(() => {
         const check = () => setIsMobile(window.innerWidth < 720);
@@ -88,8 +88,7 @@ export default function Hero() {
 
     return (
         <section className="hero-v2" ref={sectionRef}>
-
-            {/* ── 3D floating wireframe shapes ── */}
+            {/* 3D background — floating wireframe shapes (hidden on mobile) */}
             {!isMobile && <HeroBackground3D scrollProgress={scroll3D} />}
 
             {/* ── Noise / grain texture overlay ── */}

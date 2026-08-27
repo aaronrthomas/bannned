@@ -31,7 +31,7 @@ export default function Home() {
         <main>
           <Hero />
           <MarqueeTicker />
-          <AccessoriesGrid />
+          {/* <AccessoriesGrid /> */}
           <Collection />
           <Lookbook />
           <FullWinters />
