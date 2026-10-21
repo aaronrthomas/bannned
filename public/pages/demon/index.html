@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
+        id="meta-description"
         content="DEMON — Premium dark fashion. Cinematic streetwear crafted for those who defy the ordinary. Explore the new collection.">
-    <title>DEMON — Premium Dark Fashion</title>
+    <title id="page-title">DEMON — Premium Dark Fashion</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -21,8 +22,8 @@
     <!-- ═══════════════════════════════════════════ -->
     <nav id="navbar" class="navbar">
         <div class="nav-inner">
-            <a href="#" class="nav-logo" id="nav-logo">
-                <span class="logo-demon">DEMON</span>
+            <a href="/" class="nav-logo" id="nav-logo" title="Back to BANNNED Home">
+                <span class="logo-demon" id="nav-brand-name">DEMON</span>
                 <span class="logo-dot">.</span>
             </a>
             <ul class="nav-links" id="nav-links">
@@ -33,7 +34,8 @@
                 <li><a href="#lookbook" class="nav-link" data-section="lookbook">Lookbook</a></li>
             </ul>
             <div class="nav-actions">
-                <a href="#cta" class="nav-cta" id="nav-cta">Pre-order Now</a>
+                <a href="/" class="nav-back-btn">← Back to Store</a>
+                <a href="#collection" class="nav-cta" id="nav-cta">Pre-order Now</a>
                 <button class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Toggle menu">
                     <span></span>
                     <span></span>
@@ -45,12 +47,13 @@
     <!-- Mobile Menu Overlay -->
     <div class="mobile-menu" id="mobile-menu">
         <ul class="mobile-menu-links">
+            <li><a href="/" class="mobile-link">← Back to Store</a></li>
             <li><a href="#hero" class="mobile-link">Overview</a></li>
             <li><a href="#craft" class="mobile-link">Craft</a></li>
             <li><a href="#collection" class="mobile-link">Collection</a></li>
             <li><a href="#details" class="mobile-link">Details</a></li>
             <li><a href="#lookbook" class="mobile-link">Lookbook</a></li>
-            <li><a href="#cta" class="mobile-link cta-mobile">Pre-order Now</a></li>
+            <li><a href="#collection" class="mobile-link cta-mobile">Pre-order Now</a></li>
         </ul>
     </div>
 
@@ -65,13 +68,12 @@
         <!-- Hero Overlay Copy — Beat 1: Title (0-15%) -->
         <div class="hero-overlay beat beat-1" id="beat-1">
             <div class="beat-content beat-center">
-                <p class="hero-overline">SS26 Collection</p>
-                <h1 class="hero-title">
-                    <span class="title-line">DEM<span class="accent">O</span>N</span>
+                <p class="hero-overline" id="hero-overline">SS26 Collection</p>
+                <h1 class="hero-title" id="hero-title">
+                    <span class="title-line" id="hero-title-line">DEM<span class="accent">O</span>N</span>
                 </h1>
-                <p class="hero-subtitle">Wear the darkness.</p>
-                <p class="hero-tagline">Premium streetwear forged in shadow. Designed for those who don't follow — they
-                    lead.</p>
+                <p class="hero-subtitle" id="hero-subtitle">Wear the darkness.</p>
+                <p class="hero-tagline" id="hero-tagline">Premium streetwear forged in shadow. Designed for those who don't follow — they lead.</p>
                 <div class="hero-scroll-hint">
                     <span class="scroll-text">Scroll to explore</span>
                     <div class="scroll-arrow">
@@ -86,21 +88,19 @@
         <!-- Beat 2: Craft Reveal (15-40%) -->
         <div class="hero-overlay beat beat-2" id="beat-2">
             <div class="beat-content beat-left">
-                <p class="beat-label">01 — Craftsmanship</p>
-                <h2 class="beat-heading">Precision-cut.<br>Hand-finished.</h2>
-                <p class="beat-body">Every stitch is intentional. Premium 280GSM heavyweight cotton, enzyme-washed for a
-                    lived-in softness that only gets better with time.</p>
-                <p class="beat-body">The artwork isn't printed — it's embedded. Multi-layer DTG infusion bonds pigment
-                    to fibre at a molecular level.</p>
+                <p class="beat-label" id="beat-2-label">01 — Craftsmanship</p>
+                <h2 class="beat-heading" id="beat-2-heading">Precision-cut.<br>Hand-finished.</h2>
+                <p class="beat-body" id="beat-2-body-1">Every stitch is intentional. Premium 280GSM heavyweight cotton, enzyme-washed for a lived-in softness that only gets better with time.</p>
+                <p class="beat-body" id="beat-2-body-2">The artwork isn't printed — it's embedded. Multi-layer DTG infusion bonds pigment to fibre at a molecular level.</p>
             </div>
         </div>
 
         <!-- Beat 3: Design Philosophy (40-65%) -->
         <div class="hero-overlay beat beat-3" id="beat-3">
             <div class="beat-content beat-right">
-                <p class="beat-label">02 — Design</p>
-                <h2 class="beat-heading">Art meets<br>rebellion.</h2>
-                <div class="beat-features">
+                <p class="beat-label" id="beat-3-label">02 — Design</p>
+                <h2 class="beat-heading" id="beat-3-heading">Art meets<br>rebellion.</h2>
+                <div class="beat-features" id="beat-3-features">
                     <div class="feature-item">
                         <span class="feature-dot"></span>
                         <p>Original artwork by underground digital artists.</p>
@@ -120,22 +120,20 @@
         <!-- Beat 4: Material & Detail (65-85%) -->
         <div class="hero-overlay beat beat-4" id="beat-4">
             <div class="beat-content beat-left">
-                <p class="beat-label">03 — Material</p>
-                <h2 class="beat-heading">Built to<br>last forever.</h2>
-                <p class="beat-body">Premium Japanese-sourced cotton. Reinforced shoulder seams. Drop-cut silhouette for
-                    modern oversized fit.</p>
-                <p class="beat-body">Fade-proof. Shrink-proof. Made for the long haul — because real fashion doesn't
-                    have an expiry date.</p>
+                <p class="beat-label" id="beat-4-label">03 — Material</p>
+                <h2 class="beat-heading" id="beat-4-heading">Built to<br>last forever.</h2>
+                <p class="beat-body" id="beat-4-body-1">Premium Japanese-sourced cotton. Reinforced shoulder seams. Drop-cut silhouette for modern oversized fit.</p>
+                <p class="beat-body" id="beat-4-body-2">Fade-proof. Shrink-proof. Made for the long haul — because real fashion doesn't have an expiry date.</p>
             </div>
         </div>
 
         <!-- Beat 5: CTA (85-100%) -->
         <div class="hero-overlay beat beat-5" id="beat-5">
             <div class="beat-content beat-center">
-                <h2 class="beat-heading-large">Own the<br>darkness.</h2>
-                <p class="beat-subheading">DEMON SS26. Limited to 200 pieces. Once they're gone, they're gone.</p>
+                <h2 class="beat-heading-large" id="beat-5-heading">Own the<br>darkness.</h2>
+                <p class="beat-subheading" id="beat-5-subheading">DEMON SS26. Limited to 200 pieces. Once they're gone, they're gone.</p>
                 <div class="cta-group">
-                    <a href="#" class="btn-primary" id="cta-preorder">Pre-order — $89</a>
+                    <a href="#collection" class="btn-primary" id="cta-preorder">Pre-order — $89</a>
                     <a href="#details" class="btn-secondary" id="cta-details">See full details</a>
                 </div>
             </div>
@@ -171,7 +169,7 @@
                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
                             <circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5" />
                             <circle cx="16" cy="16" r="6" stroke="currentColor" stroke-width="1.5" />
-                            <circle cx="16" cy="16" r="1.5" fill="currentColor" />
+                            <circle cx="16" cy="1.5" r="1.5" fill="currentColor" />
                         </svg>
                     </div>
                     <h3 class="card-title">DTG Infusion</h3>
@@ -217,19 +215,19 @@
             <div class="collection-layout">
                 <div class="collection-visual">
                     <div class="collection-image-wrapper">
-                        <img src="t-shirt/ezgif-frame-001.webp" alt="DEMON T-shirt front view" class="collection-img"
+                        <img src="t-shirt/ezgif-frame-001.webp" alt="T-shirt front view" class="collection-img"
                             id="collection-img" loading="lazy">
-                        <div class="collection-badge">Limited<br>Edition</div>
+                        <div class="collection-badge" id="collection-badge">Limited<br>Edition</div>
                     </div>
                 </div>
                 <div class="collection-info">
-                    <p class="section-label">The Collection</p>
-                    <h2 class="section-title">DEMON Tee<br><span class="accent-text">Vol. I</span></h2>
-                    <p class="collection-price">$89 <span class="price-note">Free worldwide shipping</span></p>
+                    <p class="section-label" id="collection-section-label">The Collection</p>
+                    <h2 class="section-title" id="collection-product-title">DEMON Tee<br><span class="accent-text">Vol. I</span></h2>
+                    <p class="collection-price" id="collection-product-price">$89 <span class="price-note">Free worldwide shipping</span></p>
 
                     <div class="selector-group">
                         <p class="selector-label">Color</p>
-                        <div class="color-options">
+                        <div class="color-options" id="color-options">
                             <button class="color-swatch active" data-color="black" aria-label="Black" id="color-black">
                                 <span style="background: #1a1a1a"></span>
                             </button>
@@ -255,7 +253,7 @@
                     </div>
 
                     <a href="#" class="btn-primary btn-full" id="add-to-cart">Add to Cart</a>
-                    <p class="stock-note">🔥 Only 47 remaining in this drop</p>
+                    <p class="stock-note" id="stock-note">🔥 Only 47 remaining in this drop</p>
 
                     <div class="trust-badges">
                         <span class="badge">Free Returns</span>
@@ -281,35 +279,35 @@
             <div class="specs-grid">
                 <div class="spec-item" id="spec-material">
                     <span class="spec-key">Material</span>
-                    <span class="spec-value">100% Premium Japanese Cotton, 280GSM</span>
+                    <span class="spec-value" id="spec-material-val">100% Premium Japanese Cotton, 280GSM</span>
                 </div>
                 <div class="spec-item" id="spec-fit">
                     <span class="spec-key">Fit</span>
-                    <span class="spec-value">Oversized drop-cut, unisex</span>
+                    <span class="spec-value" id="spec-fit-val">Oversized drop-cut, unisex</span>
                 </div>
                 <div class="spec-item" id="spec-print">
                     <span class="spec-key">Print method</span>
-                    <span class="spec-value">Multi-layer DTG infusion, fade-proof</span>
+                    <span class="spec-value" id="spec-print-val">Multi-layer DTG infusion, fade-proof</span>
                 </div>
                 <div class="spec-item" id="spec-wash">
                     <span class="spec-key">Wash</span>
-                    <span class="spec-value">Enzyme pre-washed for softness</span>
+                    <span class="spec-value" id="spec-wash-val">Enzyme pre-washed for softness</span>
                 </div>
                 <div class="spec-item" id="spec-edition">
                     <span class="spec-key">Edition</span>
-                    <span class="spec-value">Limited to 200 individually numbered pieces</span>
+                    <span class="spec-value" id="spec-edition-val">Limited to 200 individually numbered pieces</span>
                 </div>
                 <div class="spec-item" id="spec-labels">
                     <span class="spec-key">Details</span>
-                    <span class="spec-value">Woven neck label, embroidered hem tag, interior taping</span>
+                    <span class="spec-value" id="spec-labels-val">Woven neck label, embroidered hem tag, interior taping</span>
                 </div>
                 <div class="spec-item" id="spec-care">
                     <span class="spec-key">Care</span>
-                    <span class="spec-value">Machine wash cold, tumble dry low, iron inside out</span>
+                    <span class="spec-value" id="spec-care-val">Machine wash cold, tumble dry low, iron inside out</span>
                 </div>
                 <div class="spec-item" id="spec-origin">
                     <span class="spec-key">Origin</span>
-                    <span class="spec-value">Designed in Tokyo, manufactured in Portugal</span>
+                    <span class="spec-value" id="spec-origin-val">Designed in Tokyo, manufactured in Portugal</span>
                 </div>
             </div>
         </div>
@@ -324,17 +322,17 @@
                 <p class="section-label">Lookbook</p>
                 <h2 class="section-title">See it in motion.</h2>
             </div>
-            <div class="lookbook-grid">
+            <div class="lookbook-grid" id="lookbook-grid">
                 <div class="lookbook-item lookbook-large" id="lookbook-1">
-                    <img src="t-shirt/ezgif-frame-060.webp" alt="DEMON tee editorial shot 1" loading="lazy">
+                    <img src="t-shirt/ezgif-frame-060.webp" alt="Editorial shot 1" loading="lazy">
                     <div class="lookbook-caption">Back detail — "DEMON" graphic</div>
                 </div>
                 <div class="lookbook-item" id="lookbook-2">
-                    <img src="t-shirt/ezgif-frame-120.webp" alt="DEMON tee editorial shot 2" loading="lazy">
+                    <img src="t-shirt/ezgif-frame-120.webp" alt="Editorial shot 2" loading="lazy">
                     <div class="lookbook-caption">Three-quarter view</div>
                 </div>
                 <div class="lookbook-item" id="lookbook-3">
-                    <img src="t-shirt/ezgif-frame-180.webp" alt="DEMON tee editorial shot 3" loading="lazy">
+                    <img src="t-shirt/ezgif-frame-180.webp" alt="Editorial shot 3" loading="lazy">
                     <div class="lookbook-caption">Side profile</div>
                 </div>
             </div>
@@ -347,12 +345,12 @@
     <section id="cta" class="section section-cta">
         <div class="container">
             <div class="cta-content">
-                <p class="cta-overline">Limited Drop — SS26</p>
-                <h2 class="cta-title">The wait is over.</h2>
-                <p class="cta-body">200 pieces. Once they sell out, this design is retired forever. No restocks. No
+                <p class="cta-overline" id="cta-overline">Limited Drop — SS26</p>
+                <h2 class="cta-title" id="cta-title">The wait is over.</h2>
+                <p class="cta-body" id="cta-body">200 pieces. Once they sell out, this design is retired forever. No restocks. No
                     exceptions.</p>
                 <div class="cta-group">
-                    <a href="#" class="btn-primary btn-large" id="final-preorder">Pre-order — $89</a>
+                    <a href="#collection" class="btn-primary btn-large" id="final-preorder">Pre-order — $89</a>
                 </div>
                 <p class="cta-micro">Ships June 2026 · Free worldwide delivery · 30-day returns</p>
             </div>
@@ -366,16 +364,16 @@
         <div class="container">
             <div class="footer-top">
                 <div class="footer-brand">
-                    <span class="footer-logo">DEMON<span class="accent-text">.</span></span>
-                    <p class="footer-tagline">Premium dark fashion for the fearless.</p>
+                    <span class="footer-logo" id="footer-logo">DEMON<span class="accent-text">.</span></span>
+                    <p class="footer-tagline" id="footer-tagline">Premium dark fashion for the fearless.</p>
                 </div>
                 <div class="footer-links-grid">
                     <div class="footer-col">
                         <h4>Shop</h4>
-                        <a href="#">New Arrivals</a>
-                        <a href="#">Collections</a>
-                        <a href="#">Accessories</a>
-                        <a href="#">Gift Cards</a>
+                        <a href="/">New Arrivals</a>
+                        <a href="/">Collections</a>
+                        <a href="/">Accessories</a>
+                        <a href="/">Gift Cards</a>
                     </div>
                     <div class="footer-col">
                         <h4>Support</h4>
@@ -394,7 +392,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 DEMON. All rights reserved.</p>
+                <p>&copy; 2026 BANNNED. All rights reserved.</p>
                 <div class="footer-legal">
                     <a href="#">Privacy</a>
                     <a href="#">Terms</a>
