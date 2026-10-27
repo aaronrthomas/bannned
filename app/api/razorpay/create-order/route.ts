@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getRazorpaySettings, createOrder, getAllOrders } from '@/lib/orderStore';
+import { syncOrderToFirebase } from '@/lib/firebaseService';
 import { Order } from '@/lib/types';
 
 // POST /api/razorpay/create-order — Create a Razorpay order server-side
@@ -22,25 +23,37 @@ export async function POST(request: NextRequest) {
         let isSimulated = false;
 
         if (hasLiveKeys) {
-            // Live Razorpay order via REST API
-            const razorpayResponse = await fetch('https://api.razorpay.com/v1/orders', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Basic ${Buffer.from(`${settings.keyId}:${settings.keySecret}`).toString('base64')}`,
-                },
-                body: JSON.stringify({
-                    amount: Math.round(amount * 100), // Razorpay uses paise
-                    currency,
-                    receipt: `rcpt_${Date.now()}`,
-                }),
-            });
+            try {
+                // Live Razorpay order via REST API with an 8-second timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 8000);
 
-            if (razorpayResponse.ok) {
-                const rzpOrder = await razorpayResponse.json();
-                rzpOrderId = rzpOrder.id;
-            } else {
-                console.warn('Razorpay live API order creation failed, falling back to test order');
+                const razorpayResponse = await fetch('https://api.razorpay.com/v1/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Basic ${Buffer.from(`${settings.keyId}:${settings.keySecret}`).toString('base64')}`,
+                    },
+                    body: JSON.stringify({
+                        amount: Math.round(amount * 100), // Razorpay uses paise
+                        currency,
+                        receipt: `rcpt_${Date.now()}`,
+                    }),
+                    signal: controller.signal,
+                });
+                clearTimeout(timeoutId);
+
+                if (razorpayResponse.ok) {
+                    const rzpOrder = await razorpayResponse.json();
+                    rzpOrderId = rzpOrder.id;
+                } else {
+                    const errBody = await razorpayResponse.text();
+                    console.warn('Razorpay live API order creation failed, falling back to test order:', razorpayResponse.status, errBody);
+                    rzpOrderId = `order_sim_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+                    isSimulated = true;
+                }
+            } catch (fetchErr) {
+                console.warn('Razorpay live API order creation threw exception, falling back to test order:', fetchErr);
                 rzpOrderId = `order_sim_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
                 isSimulated = true;
             }
@@ -68,6 +81,11 @@ export async function POST(request: NextRequest) {
 
         createOrder(newOrder);
 
+        // Asynchronously sync pending order to Firebase Realtime Database
+        syncOrderToFirebase(newOrder).catch((syncErr) => {
+            console.warn('[Firebase] Non-blocking pending order sync error:', syncErr);
+        });
+
         return NextResponse.json({
             success: true,
             orderId,
@@ -79,10 +97,10 @@ export async function POST(request: NextRequest) {
             companyLogo: settings.companyLogo,
             isSimulated,
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error creating payment order:', error);
         return NextResponse.json(
-            { success: false, error: 'Failed to create payment order' },
+            { success: false, error: error?.message || 'Failed to create payment order' },
             { status: 500 }
         );
     }

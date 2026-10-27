@@ -18,9 +18,11 @@ const DEFAULT_RAZORPAY_SETTINGS: RazorpaySettings = {
 };
 
 function ensureDir() {
-    if (!fs.existsSync(DATA_DIR)) {
-        fs.mkdirSync(DATA_DIR, { recursive: true });
-    }
+    try {
+        if (!fs.existsSync(DATA_DIR)) {
+            fs.mkdirSync(DATA_DIR, { recursive: true });
+        }
+    } catch {}
 }
 
 // ─── ORDERS ───────────────────────────────────────────────────────────────────
@@ -46,7 +48,12 @@ export function getOrderByRazorpayId(razorpayOrderId: string): Order | null {
 export function createOrder(order: Order): Order {
     const orders = getAllOrders();
     orders.unshift(order);
-    fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf-8');
+    try {
+        ensureDir();
+        fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf-8');
+    } catch (e) {
+        console.warn('[orderStore] Could not write order to local disk (e.g. read-only serverless environment):', e);
+    }
     return order;
 }
 
@@ -55,7 +62,12 @@ export function updateOrder(id: string, updates: Partial<Order>): Order | null {
     const idx = orders.findIndex((o) => o.id === id);
     if (idx === -1) return null;
     orders[idx] = { ...orders[idx], ...updates, updatedAt: new Date().toISOString() };
-    fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf-8');
+    try {
+        ensureDir();
+        fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf-8');
+    } catch (e) {
+        console.warn('[orderStore] Could not update order on local disk:', e);
+    }
     return orders[idx];
 }
 
@@ -74,7 +86,12 @@ export function getAllTransactions(): PaymentTransaction[] {
 export function createTransaction(tx: PaymentTransaction): PaymentTransaction {
     const txs = getAllTransactions();
     txs.unshift(tx);
-    fs.writeFileSync(TRANSACTIONS_FILE, JSON.stringify(txs, null, 2), 'utf-8');
+    try {
+        ensureDir();
+        fs.writeFileSync(TRANSACTIONS_FILE, JSON.stringify(txs, null, 2), 'utf-8');
+    } catch (e) {
+        console.warn('[orderStore] Could not write transaction to local disk:', e);
+    }
     return tx;
 }
 
