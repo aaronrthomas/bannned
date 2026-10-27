@@ -1,0 +1,13 @@
+[
+  {
+    "id": "TXN-1793033671416",
+    "orderId": "ORD-1793033670388-KHFO",
+    "razorpayPaymentId": "pay_sim_x1vt7d6l",
+    "amount": 250,
+    "currency": "INR",
+    "status": "captured",
+    "method": "upi_sandbox",
+    "customerEmail": "rohan.mehra@example.com",
+    "createdAt": "2026-10-26T16:54:31.416Z"
+  }
+]

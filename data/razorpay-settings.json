@@ -1,0 +1,9 @@
+{
+  "keyId": "",
+  "keySecret": "",
+  "webhookSecret": "",
+  "currency": "INR",
+  "companyName": "BANNNED",
+  "companyLogo": "/angel.jpeg",
+  "testMode": true
+}

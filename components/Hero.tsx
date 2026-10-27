@@ -133,7 +133,14 @@ export default function Hero() {
                         Timeless fits. Premium quality.<br />Made for the streets.
                     </p>
 
-                    <button className="hero-v2-shopnow" id="hero-shop-now">
+                    <button
+                        className="hero-v2-shopnow"
+                        id="hero-shop-now"
+                        onClick={() => {
+                            const el = document.getElementById('collection');
+                            if (el) el.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                    >
                         Shop Now <span aria-hidden="true">→</span>
                     </button>
                 </motion.div>

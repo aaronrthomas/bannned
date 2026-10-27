@@ -1,0 +1,1101 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ═══════════════════════════════════════════════════════════════
+   DEALDECK / BANNNED ENTERPRISE LIGHT THEME
+   Modern Rounded Neumorphic & Soft-Shadow SaaS UI
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+    --dd-bg-canvas: #e9eef5;
+    --dd-bg-shell: #f4f6fa;
+    --dd-bg-card: #ffffff;
+    --dd-bg-card-subtle: #f8fafc;
+    --dd-bg-hover: #f1f5f9;
+    
+    --dd-primary: #3b5bf5;
+    --dd-primary-hover: #2f4ce0;
+    --dd-primary-glow: rgba(59, 91, 245, 0.28);
+    --dd-primary-light: #eef2ff;
+    
+    --dd-text-main: #0f172a;
+    --dd-text-muted: #64748b;
+    --dd-text-faint: #94a3b8;
+    
+    --dd-green: #10b981;
+    --dd-green-bg: #e8f9ee;
+    --dd-green-text: #16a34a;
+    
+    --dd-red: #ef4444;
+    --dd-red-bg: #fdeeee;
+    --dd-red-text: #e11d48;
+    
+    --dd-border: rgba(148, 163, 184, 0.16);
+    --dd-border-strong: #e2e8f0;
+    
+    --dd-shadow-card: 0 10px 25px -4px rgba(15, 23, 42, 0.04), 0 4px 10px -2px rgba(15, 23, 42, 0.02);
+    --dd-shadow-lg: 0 20px 45px -10px rgba(15, 23, 42, 0.08);
+    
+    --dd-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --dd-font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Reset on body */
+.admin-body-lock {
+    background-color: var(--dd-bg-canvas) !important;
+    color: var(--dd-text-main) !important;
+    font-family: var(--dd-font) !important;
+    margin: 0;
+    padding: 24px;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+    .admin-body-lock {
+        padding: 12px;
+    }
+}
+
+/* App Outer Card Container */
+.dd-app-shell {
+    background-color: var(--dd-bg-shell);
+    border-radius: 28px;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.07), 0 4px 16px rgba(15, 23, 42, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: calc(100vh - 48px);
+    overflow: hidden;
+    position: relative;
+}
+
+@media (max-width: 1024px) {
+    .dd-app-shell {
+        grid-template-columns: 1fr;
+        min-height: 100vh;
+        border-radius: 16px;
+    }
+}
+
+/* ─── SIDEBAR ─── */
+.dd-sidebar {
+    background-color: transparent;
+    border-right: 1px solid var(--dd-border);
+    padding: 28px 20px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.dd-logo-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 32px;
+    text-decoration: none;
+}
+
+.dd-logo-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0f172a;
+    color: #fff;
+    font-weight: 800;
+}
+
+.dd-logo-text {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--dd-text-main);
+    letter-spacing: -0.5px;
+}
+
+.dd-nav-group {
+    margin-bottom: 24px;
+}
+
+.dd-nav-title {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--dd-text-faint);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 12px;
+    padding-left: 10px;
+}
+
+.dd-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: none;
+    background: transparent;
+    color: var(--dd-text-muted);
+    font-family: var(--dd-font);
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+    margin-bottom: 4px;
+    position: relative;
+}
+
+.dd-nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+    color: var(--dd-text-main);
+}
+
+.dd-nav-item.active {
+    background: var(--dd-primary);
+    color: #ffffff !important;
+    box-shadow: 0 8px 20px rgba(59, 91, 245, 0.35);
+}
+
+.dd-nav-badge {
+    margin-left: auto;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+}
+
+.dd-nav-item:not(.active) .dd-nav-badge {
+    background: #e2e8f0;
+    color: var(--dd-text-muted);
+}
+
+/* Sidebar Upgrade Pro Card */
+.dd-pro-card {
+    background: #12151c;
+    border-radius: 20px;
+    padding: 20px 16px 16px;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+    margin-top: auto;
+    box-shadow: 0 12px 24px rgba(18, 21, 28, 0.2);
+}
+
+.dd-pro-card::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(59, 91, 245, 0.3) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.dd-pro-icon-box {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.dd-pro-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.dd-pro-desc {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    line-height: 1.4;
+    margin-bottom: 14px;
+}
+
+.dd-pro-btn {
+    width: 100%;
+    padding: 9px;
+    background: var(--dd-primary);
+    color: #ffffff;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(59, 91, 245, 0.4);
+    transition: background 0.15s ease;
+}
+
+.dd-pro-btn:hover {
+    background: var(--dd-primary-hover);
+}
+
+/* ─── MAIN CONTENT ─── */
+.dd-main-area {
+    padding: 28px 32px 32px;
+    overflow-y: auto;
+    max-height: calc(100vh - 48px);
+}
+
+@media (max-width: 1024px) {
+    .dd-main-area {
+        padding: 20px 16px;
+        max-height: none;
+    }
+}
+
+/* Top Header */
+.dd-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 26px;
+}
+
+.dd-header-left h1 {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: var(--dd-text-main);
+    letter-spacing: -0.5px;
+    margin: 0;
+}
+
+.dd-header-left p {
+    font-size: 0.82rem;
+    color: var(--dd-text-faint);
+    font-weight: 500;
+    margin: 3px 0 0;
+}
+
+.dd-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dd-circle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dd-text-muted);
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+    position: relative;
+    transition: all 0.15s ease;
+}
+
+.dd-circle-btn:hover {
+    background: var(--dd-bg-card-subtle);
+    color: var(--dd-text-main);
+}
+
+.dd-bell-dot {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    width: 7px;
+    height: 7px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 1.5px solid #fff;
+}
+
+.dd-user-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 14px 4px 6px;
+    background: #ffffff;
+    border-radius: 30px;
+    border: 1px solid rgba(226, 232, 240, 0.7);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+}
+
+.dd-user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.dd-user-info-name {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--dd-text-main);
+    line-height: 1.2;
+}
+
+.dd-user-info-role {
+    font-size: 0.68rem;
+    color: var(--dd-text-faint);
+}
+
+/* ─── REPORT TAB GRID LAYOUT ─── */
+.dd-report-grid {
+    display: grid;
+    grid-template-columns: 1.38fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 1200px) {
+    .dd-report-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 4 Metric Cards Grid */
+.dd-metrics-grid-2x2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+@media (max-width: 640px) {
+    .dd-metrics-grid-2x2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.dd-card {
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 22px;
+    box-shadow: var(--dd-shadow-card);
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    position: relative;
+}
+
+/* Solid Blue Featured Metric Card */
+.dd-card-primary {
+    background: linear-gradient(135deg, #3755f5 0%, #4663f7 100%);
+    color: #ffffff;
+    box-shadow: 0 14px 30px rgba(59, 91, 245, 0.32);
+    border: none;
+}
+
+.dd-metric-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.dd-metric-icon-box {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: #f1f5f9;
+    color: var(--dd-text-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dd-card-primary .dd-metric-icon-box {
+    background: #ffffff;
+    color: var(--dd-primary);
+}
+
+.dd-pill-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.dd-pill-badge.green {
+    background: var(--dd-green-bg);
+    color: var(--dd-green-text);
+}
+
+.dd-pill-badge.red {
+    background: var(--dd-red-bg);
+    color: var(--dd-red-text);
+}
+
+.dd-card-primary .dd-pill-badge.green {
+    background: #bbf7d0;
+    color: #15803d;
+}
+
+.dd-metric-label {
+    font-size: 0.78rem;
+    color: var(--dd-text-muted);
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.dd-card-primary .dd-metric-label {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.dd-metric-value {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: var(--dd-text-main);
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    margin-bottom: 6px;
+}
+
+.dd-card-primary .dd-metric-value {
+    color: #ffffff;
+}
+
+.dd-metric-subtext {
+    font-size: 0.72rem;
+    color: var(--dd-text-faint);
+}
+
+.dd-card-primary .dd-metric-subtext {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* ─── CUSTOMER HABITS / SALES PERFORMANCE BAR CHART ─── */
+.dd-chart-card {
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 22px;
+    box-shadow: var(--dd-shadow-card);
+    border: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+.dd-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.dd-card-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--dd-text-main);
+    margin: 0 0 2px 0;
+}
+
+.dd-card-subtitle {
+    font-size: 0.75rem;
+    color: var(--dd-text-faint);
+    margin: 0;
+}
+
+.dd-select-pill {
+    padding: 6px 12px;
+    background: #ffffff;
+    border: 1px solid var(--dd-border-strong);
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--dd-text-main);
+    cursor: pointer;
+    outline: none;
+}
+
+.dd-legend-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 0.75rem;
+    color: var(--dd-text-muted);
+    margin-bottom: 18px;
+}
+
+.dd-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dd-legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+/* Custom Dual Pill Bar Chart with Y-Axis and Gridlines */
+.dd-habits-chart-wrap {
+    display: flex;
+    gap: 12px;
+    height: 195px;
+    position: relative;
+    padding-top: 36px;
+}
+
+.dd-habits-yaxis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: calc(100% - 24px);
+    font-size: 0.7rem;
+    color: var(--dd-text-faint);
+    font-weight: 500;
+    text-align: right;
+    width: 28px;
+    user-select: none;
+    padding-bottom: 2px;
+}
+
+.dd-habits-plot {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.dd-chart-gridline {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #edf2f7;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.dd-barchart-container {
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    position: relative;
+    z-index: 2;
+}
+
+.dd-bar-group {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.dd-bar-pair {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: calc(100% - 24px);
+    width: 100%;
+    justify-content: center;
+}
+
+.dd-pill-bar {
+    width: 14px;
+    border-radius: 10px;
+    transition: height 0.4s ease, opacity 0.2s ease;
+    position: relative;
+}
+
+.dd-pill-bar.grey {
+    background: #dbe2ea;
+}
+
+.dd-pill-bar.blue {
+    background: var(--dd-primary);
+}
+
+.dd-bar-dot-pin {
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #11141c;
+    border: 2px solid #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    z-index: 5;
+}
+
+.dd-bar-group:hover .dd-pill-bar {
+    opacity: 0.88;
+}
+
+.dd-bar-month {
+    font-size: 0.72rem;
+    color: var(--dd-text-faint);
+    font-weight: 600;
+    margin-top: 10px;
+    height: 14px;
+}
+
+/* Floating dark tooltip exactly like screenshot */
+.dd-floating-tooltip {
+    position: absolute;
+    top: -42px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #11141c;
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.dd-floating-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px 5px 0;
+    border-style: solid;
+    border-color: #11141c transparent transparent;
+}
+
+.dd-tooltip-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.dd-tooltip-row:last-child {
+    margin-bottom: 0;
+}
+
+/* ─── RIGHT COLUMN CARDS ─── */
+.dd-donut-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 16px 0;
+    position: relative;
+}
+
+.dd-donut-center-info {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dd-donut-center-number {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--dd-text-main);
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.dd-donut-center-label {
+    font-size: 0.72rem;
+    color: var(--dd-text-faint);
+    margin-bottom: 4px;
+}
+
+.dd-category-stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+    font-size: 0.82rem;
+}
+
+.dd-category-stat-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.dd-category-name-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--dd-text-main);
+    font-weight: 600;
+}
+
+.dd-category-values {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Customer Growth Bubble Visual */
+.dd-growth-layout {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 16px;
+    align-items: center;
+    margin-top: 14px;
+}
+
+.dd-bubbles-box {
+    position: relative;
+    width: 125px;
+    height: 125px;
+}
+
+.dd-bubble {
+    position: absolute;
+    border-radius: 50%;
+    color: #ffffff;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffffff;
+    box-shadow: 0 8px 18px rgba(37, 72, 230, 0.22);
+}
+
+.dd-bubble-1 {
+    width: 68px;
+    height: 68px;
+    background: #2548e6;
+    top: 2px;
+    right: 4px;
+    font-size: 0.74rem;
+    z-index: 2;
+}
+
+.dd-bubble-2 {
+    width: 64px;
+    height: 64px;
+    background: #385df6;
+    bottom: 2px;
+    left: 2px;
+    font-size: 0.72rem;
+    z-index: 3;
+}
+
+.dd-bubble-3 {
+    width: 48px;
+    height: 48px;
+    background: #6082ff;
+    bottom: 4px;
+    right: 10px;
+    font-size: 0.68rem;
+    z-index: 4;
+}
+
+.dd-bubble-4 {
+    width: 40px;
+    height: 40px;
+    background: #a2b7ff;
+    top: 8px;
+    left: 4px;
+    font-size: 0.62rem;
+    z-index: 1;
+}
+
+.dd-location-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 0.78rem;
+}
+
+.dd-location-item:last-child {
+    margin-bottom: 0;
+}
+
+.dd-flag-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dd-location-name {
+    font-weight: 600;
+    color: var(--dd-text-main);
+    flex: 1;
+}
+
+.dd-location-bar {
+    width: 65px;
+    height: 6px;
+    background: #edf2f7;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.dd-location-fill {
+    height: 100%;
+    background: var(--dd-primary);
+    border-radius: 999px;
+}
+
+/* ─── PRODUCTS & POINTS MANAGER TABLES (MATCHING LIGHT THEME) ─── */
+.dd-table-container {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    box-shadow: var(--dd-shadow-card);
+    overflow: hidden;
+}
+
+.dd-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.dd-table th {
+    padding: 14px 18px;
+    text-align: left;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--dd-text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 1px solid var(--dd-border);
+    background: var(--dd-bg-card-subtle);
+}
+
+.dd-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+    color: var(--dd-text-main);
+    vertical-align: middle;
+}
+
+.dd-table tr:last-child td {
+    border-bottom: none;
+}
+
+.dd-table tr:hover td {
+    background-color: #fafbfc;
+}
+
+/* Action Buttons */
+.dd-btn-primary {
+    background: var(--dd-primary);
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-family: var(--dd-font);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 14px rgba(59, 91, 245, 0.28);
+    transition: all 0.15s ease;
+}
+
+.dd-btn-primary:hover {
+    background: var(--dd-primary-hover);
+    transform: translateY(-1px);
+}
+
+.dd-btn-secondary {
+    background: #ffffff;
+    color: var(--dd-text-main);
+    border: 1px solid var(--dd-border-strong);
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-family: var(--dd-font);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+}
+
+.dd-btn-secondary:hover {
+    background: #f8fafc;
+}
+
+.dd-btn-danger {
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: background 0.15s ease;
+}
+
+.dd-btn-danger:hover {
+    background: #fecaca;
+}
+
+/* Points Input & Sliders */
+.dd-points-input {
+    width: 75px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: 1px solid var(--dd-border-strong);
+    background: #ffffff;
+    font-family: var(--dd-font-mono);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #f59e0b;
+    text-align: center;
+    outline: none;
+}
+
+.dd-points-bar-wrap {
+    height: 4px;
+    background: #e2e8f0;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.dd-points-bar-fill {
+    height: 100%;
+    background: #f59e0b;
+    border-radius: 2px;
+}
+
+/* Toast */
+.dd-toast {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    background: #11141c;
+    color: #ffffff;
+    padding: 12px 18px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    z-index: 9999;
+    animation: ddSlideIn 0.3s ease;
+}
+
+@keyframes ddSlideIn {
+    from { transform: translateY(-10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Live Realtime Sync Pill */
+.dd-live-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.dd-live-pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    animation: ddPulse 1.8s infinite;
+}
+
+@keyframes ddPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT & INVOICE MODAL STYLING
+   ═══════════════════════════════════════════════════════════════ */
+
+.dd-invoice-sheet {
+    background: #ffffff;
+    color: #0f172a;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    padding: 36px 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+@media print {
+    body, .admin-body-lock {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .dd-sidebar, .dd-header, .dd-toast, .dd-modal-actions, .dd-modal-header-controls {
+        display: none !important;
+    }
+
+    .dd-app-shell {
+        display: block !important;
+        box-shadow: none !important;
+        border: none !important;
+        background: transparent !important;
+    }
+
+    .dd-main-area {
+        display: none !important;
+    }
+
+    .dd-invoice-modal-backdrop {
+        position: static !important;
+        background: transparent !important;
+        backdrop-filter: none !important;
+        padding: 0 !important;
+        display: block !important;
+    }
+
+    .dd-invoice-sheet {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 20px !important;
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+}
+

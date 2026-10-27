@@ -1,0 +1,436 @@
+[
+  {
+    "id": "demon-tee",
+    "name": "Demon Tee",
+    "price": "₹250.00",
+    "originalPrice": "₹350.00",
+    "badge": {
+      "text": "LIMITED",
+      "bg": "#821515"
+    },
+    "src": "/red.jpeg",
+    "category": "tees",
+    "description": "Limited edition dark-themed graphic tee. Screen-printed artwork on premium red-washed fabric.",
+    "tags": [
+      {
+        "text": "LIMITED",
+        "iconAfter": true
+      },
+      {
+        "text": "RED-WASHED"
+      }
+    ],
+    "filters": [
+      "White",
+      "Black",
+      "Grey",
+      "Popular"
+    ],
+    "specs": {
+      "gsm": "280 GSM",
+      "fit": "Oversized Drop-Cut Unisex",
+      "material": "100% Japanese Combed Cotton",
+      "wash": "Enzyme pre-washed for vintage softness",
+      "print": "Multi-layer DTG infusion fade-proof",
+      "origin": "Designed in Tokyo"
+    },
+    "hyperlink": "/pages/demon/index.html?product=demon-tee",
+    "stock": 46,
+    "totalPieces": 200,
+    "status": "active",
+    "sku": "BNND-TS-003",
+    "bonusPoints": 850,
+    "colors": [
+      {
+        "name": "Blood Red",
+        "hex": "#8B0000",
+        "active": true
+      },
+      {
+        "name": "Obsidian Black",
+        "hex": "#1a1a1a"
+      },
+      {
+        "name": "Phantom Ash",
+        "hex": "#9e9e9e"
+      }
+    ],
+    "createdAt": "2026-01-05T08:00:00.000Z",
+    "updatedAt": "2026-10-26T16:54:31.417Z"
+  },
+  {
+    "id": "angel-tee",
+    "name": "Angel Tee",
+    "price": "₹250.00",
+    "originalPrice": "₹320.00",
+    "badge": {
+      "text": "NEW",
+      "bg": "#274724"
+    },
+    "src": "/angel.jpeg",
+    "category": "tees",
+    "description": "Premium cotton tee with an angelic graphic print. Relaxed fit with drop shoulders for effortless street style.",
+    "tags": [
+      {
+        "text": "NEW",
+        "iconBefore": true
+      },
+      {
+        "text": "OVERSIZED FIT"
+      }
+    ],
+    "filters": [
+      "White",
+      "Black",
+      "Grey",
+      "Popular"
+    ],
+    "specs": {
+      "gsm": "240 GSM",
+      "fit": "Relaxed Drop-Shoulder",
+      "material": "100% Combed Heavyweight Cotton",
+      "wash": "Bio-washed for ultra-soft hand feel",
+      "print": "High-density silk screen print with metallic accents",
+      "origin": "Made with pride"
+    },
+    "hyperlink": "/pages/demon/index.html?product=angel-tee",
+    "stock": 62,
+    "totalPieces": 250,
+    "status": "active",
+    "sku": "BNND-TS-001",
+    "bonusPoints": 600,
+    "colors": [
+      {
+        "name": "Onyx Black",
+        "hex": "#111111",
+        "active": true
+      },
+      {
+        "name": "Pure White",
+        "hex": "#f5f5f5"
+      },
+      {
+        "name": "Sky Tint",
+        "hex": "#cddde8"
+      }
+    ],
+    "createdAt": "2026-01-15T10:00:00.000Z",
+    "updatedAt": "2026-02-10T14:30:00.000Z"
+  },
+  {
+    "id": "neymar-tee",
+    "name": "Neymar Tee",
+    "price": "₹250.00",
+    "originalPrice": "₹299.00",
+    "badge": {
+      "text": "HOT",
+      "bg": "#BA4C16"
+    },
+    "src": "/neymar.jpeg",
+    "category": "tees",
+    "description": "Bold oversized silhouette featuring an iconic Neymar-inspired design. Heavyweight 240gsm cotton.",
+    "tags": [
+      {
+        "text": "HOT"
+      },
+      {
+        "text": "240 GSM"
+      }
+    ],
+    "filters": [
+      "White",
+      "Black",
+      "Blue",
+      "Popular"
+    ],
+    "specs": {
+      "gsm": "240 GSM",
+      "fit": "Oversized Boxy Silhouette",
+      "material": "100% Heavyweight Cotton",
+      "wash": "Pre-washed against shrinking",
+      "print": "Vibrant multi-pass DTG print",
+      "origin": "Crafted with care"
+    },
+    "hyperlink": "/pages/demon/index.html?product=neymar-tee",
+    "stock": 35,
+    "totalPieces": 150,
+    "status": "active",
+    "sku": "BNND-TS-002",
+    "bonusPoints": 450,
+    "colors": [
+      {
+        "name": "Pitch Black",
+        "hex": "#141414",
+        "active": true
+      },
+      {
+        "name": "Canary Gold",
+        "hex": "#d4af37"
+      },
+      {
+        "name": "Samba Green",
+        "hex": "#1e4d2b"
+      }
+    ],
+    "createdAt": "2026-01-20T11:00:00.000Z",
+    "updatedAt": "2026-02-12T09:15:00.000Z"
+  },
+  {
+    "id": "phantom-sage-hoodie",
+    "name": "Phantom Heavyweight Hoodie",
+    "price": "₹499.00",
+    "originalPrice": "₹599.00",
+    "badge": {
+      "text": "RESTOCK",
+      "bg": "#255e46"
+    },
+    "src": "/hoodie-green.png",
+    "category": "hoodies",
+    "description": "Ultra-dense 450GSM French terry oversized hoodie with double-layer hood and kangaroo stash pocket.",
+    "tags": [
+      {
+        "text": "450 GSM"
+      },
+      {
+        "text": "HEAVYWEIGHT"
+      }
+    ],
+    "filters": [
+      "Grey",
+      "Popular"
+    ],
+    "specs": {
+      "gsm": "450 GSM",
+      "fit": "Boxy Heavyweight Drop-Shoulder",
+      "material": "100% Organic French Terry Cotton",
+      "wash": "Garment dyed vintage wash",
+      "details": "Double-layered hood, raw-cut metal aglets",
+      "origin": "Hand-assembled"
+    },
+    "hyperlink": "/pages/demon/index.html?product=phantom-sage-hoodie",
+    "stock": 24,
+    "totalPieces": 100,
+    "status": "active",
+    "sku": "BNND-HD-004",
+    "bonusPoints": 350,
+    "colors": [
+      {
+        "name": "Sage Green",
+        "hex": "#486856",
+        "active": true
+      },
+      {
+        "name": "Washed Charcoal",
+        "hex": "#333333"
+      }
+    ],
+    "createdAt": "2026-02-01T12:00:00.000Z",
+    "updatedAt": "2026-02-19T10:00:00.000Z"
+  },
+  {
+    "id": "midnight-boxy-hoodie",
+    "name": "Midnight Boxy Hoodie",
+    "price": "₹550.00",
+    "originalPrice": "₹650.00",
+    "badge": {
+      "text": "HOT",
+      "bg": "#1b3a5c"
+    },
+    "src": "/hoodie-navy.png",
+    "category": "hoodies",
+    "description": "Deep midnight navy heavyweight hooded sweatshirt with custom embroidery and brushed interior fleece.",
+    "tags": [
+      {
+        "text": "480 GSM"
+      },
+      {
+        "text": "FLEECE"
+      }
+    ],
+    "filters": [
+      "Blue",
+      "Popular"
+    ],
+    "specs": {
+      "gsm": "480 GSM",
+      "fit": "Ultra-Oversized Boxy Cut",
+      "material": "Heavy Brushed Cotton Fleece",
+      "wash": "Pre-shrunk silicone soft wash",
+      "details": "Thick ribbed cuffs and hem, invisible side seams",
+      "origin": "Crafted with premium yarns"
+    },
+    "hyperlink": "/pages/demon/index.html?product=midnight-boxy-hoodie",
+    "stock": 18,
+    "totalPieces": 90,
+    "status": "active",
+    "sku": "BNND-HD-005",
+    "bonusPoints": 250,
+    "colors": [
+      {
+        "name": "Midnight Navy",
+        "hex": "#12233b",
+        "active": true
+      },
+      {
+        "name": "Deep Space",
+        "hex": "#0a101d"
+      }
+    ],
+    "createdAt": "2026-02-05T09:30:00.000Z",
+    "updatedAt": "2026-02-20T18:20:00.000Z"
+  },
+  {
+    "id": "acid-wash-sweatshirt",
+    "name": "Acid Wash Crewneck",
+    "price": "₹420.00",
+    "originalPrice": "₹480.00",
+    "badge": {
+      "text": "VINTAGE",
+      "bg": "#474554"
+    },
+    "src": "/model-sweatshirt.png",
+    "category": "sweatshirts",
+    "description": "Mineral acid-washed crewneck sweater with distressed collar ribbing and drop armholes.",
+    "tags": [
+      {
+        "text": "MINERAL WASH"
+      },
+      {
+        "text": "VINTAGE"
+      }
+    ],
+    "filters": [
+      "Grey",
+      "Black"
+    ],
+    "specs": {
+      "gsm": "400 GSM",
+      "fit": "Relaxed Unisex Crewneck",
+      "material": "100% Loopback Cotton",
+      "wash": "Hand acid-treated individual wash",
+      "details": "Distressed rib trim, woven nape patch",
+      "origin": "Specialty wash series"
+    },
+    "hyperlink": "/pages/demon/index.html?product=acid-wash-sweatshirt",
+    "stock": 12,
+    "totalPieces": 75,
+    "status": "active",
+    "sku": "BNND-SW-006",
+    "bonusPoints": 200,
+    "colors": [
+      {
+        "name": "Acid Mineral Grey",
+        "hex": "#636569",
+        "active": true
+      },
+      {
+        "name": "Faded Black",
+        "hex": "#2b2a2c"
+      }
+    ],
+    "createdAt": "2026-02-08T15:00:00.000Z",
+    "updatedAt": "2026-02-21T11:00:00.000Z"
+  },
+  {
+    "id": "distressed-snapback-cap",
+    "name": "BANNNED Script Snapback",
+    "price": "₹180.00",
+    "originalPrice": "₹220.00",
+    "badge": {
+      "text": "DROP",
+      "bg": "#3d2b56"
+    },
+    "src": "/product-caps.png",
+    "category": "caps",
+    "description": "Structured 6-panel snapback with 3D puff embroidery and vintage brass buckle clasp.",
+    "tags": [
+      {
+        "text": "3D PUFF"
+      },
+      {
+        "text": "6-PANEL"
+      }
+    ],
+    "filters": [
+      "Black",
+      "Popular"
+    ],
+    "specs": {
+      "gsm": "Heavy Twill",
+      "fit": "Adjustable One Size Fits All",
+      "material": "100% Cotton Chino Twill",
+      "details": "Antique brass slider buckle, custom internal sweatband",
+      "origin": "Headwear division"
+    },
+    "hyperlink": "/pages/demon/index.html?product=distressed-snapback-cap",
+    "stock": 58,
+    "totalPieces": 200,
+    "status": "active",
+    "sku": "BNND-CP-007",
+    "bonusPoints": 150,
+    "colors": [
+      {
+        "name": "Raven Black",
+        "hex": "#111111",
+        "active": true
+      },
+      {
+        "name": "Off-White",
+        "hex": "#eae5dc"
+      }
+    ],
+    "createdAt": "2026-01-25T14:00:00.000Z",
+    "updatedAt": "2026-02-15T12:00:00.000Z"
+  },
+  {
+    "id": "canvas-utility-tote",
+    "name": "Raw Heavyweight Canvas Tote",
+    "price": "₹120.00",
+    "originalPrice": "₹150.00",
+    "badge": {
+      "text": "ESSENTIAL",
+      "bg": "#2b3a32"
+    },
+    "src": "/tote-bag.png",
+    "category": "accessories",
+    "description": "16oz rugged organic canvas tote with reinforced box-stitched webbing handles and interior key clip.",
+    "tags": [
+      {
+        "text": "16 OZ"
+      },
+      {
+        "text": "ORGANIC"
+      }
+    ],
+    "filters": [
+      "White",
+      "Black"
+    ],
+    "specs": {
+      "gsm": "16oz Heavy Duck",
+      "fit": "Structured Large Capacity",
+      "material": "100% Unbleached Heavy Cotton Canvas",
+      "details": "Interior zippered security pocket, gunmetal clip",
+      "origin": "Eco-conscious workshop"
+    },
+    "hyperlink": "/pages/demon/index.html?product=canvas-utility-tote",
+    "stock": 82,
+    "totalPieces": 300,
+    "status": "active",
+    "sku": "BNND-TT-008",
+    "bonusPoints": 100,
+    "colors": [
+      {
+        "name": "Raw Natural",
+        "hex": "#e8dec8",
+        "active": true
+      },
+      {
+        "name": "Pitch Black",
+        "hex": "#161616"
+      }
+    ],
+    "createdAt": "2026-01-28T16:00:00.000Z",
+    "updatedAt": "2026-02-14T08:00:00.000Z"
+  }
+]

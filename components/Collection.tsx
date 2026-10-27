@@ -2,32 +2,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import Image from 'next/image';
-
-interface ProductTag {
-    text: string;
-    iconBefore?: boolean;
-    iconAfter?: boolean;
-}
-
-interface Product {
-    id: string;
-    name: string;
-    price: string;
-    badge: {
-        text: string;
-        bg: string;
-    };
-    src: string;
-    description: string;
-    tags: ProductTag[];
-    filters: string[];
-    specs: {
-        gsm: string;
-        fit: string;
-        material: string;
-    };
-    hyperlink: string;
-}
+import CheckoutModal from './CheckoutModal';
+import { useCart } from '@/lib/cartContext';
+import type { Product } from '@/lib/types';
 
 const FILTERS = ['White', 'Black', 'Grey', 'Blue', 'Popular'];
 
@@ -35,70 +12,64 @@ const ALL_PRODUCTS: Product[] = [
     {
         id: 'angel-tee',
         name: 'Angel Tee',
-        price: '₹250.00',
-        badge: {
-            text: 'NEW',
-            bg: '#274724',
-        },
+        price: 'u{20B9}250.00',
+        badge: { text: 'NEW', bg: '#274724' },
         src: '/angel.jpeg',
+        category: 'tees',
         description: 'Premium cotton tee with an angelic graphic print. Relaxed fit with drop shoulders for effortless street style.',
         tags: [
             { text: 'NEW', iconBefore: true },
             { text: 'OVERSIZED FIT' },
         ],
         filters: ['White', 'Black', 'Grey', 'Popular'],
-        specs: {
-            gsm: '240 GSM',
-            fit: 'Relaxed Drop-Shoulder',
-            material: '100% Combed Heavyweight Cotton',
-        },
+        specs: { gsm: '240 GSM', fit: 'Relaxed Drop-Shoulder', material: '100% Combed Heavyweight Cotton' },
         hyperlink: '/pages/demon/index.html?product=angel-tee',
+        sku: 'ANGEL-TEE-001',
+        stock: 50,
+        totalPieces: 50,
+        status: 'active',
     },
     {
         id: 'neymar-tee',
         name: 'Neymar Tee',
-        price: '₹250.00',
-        badge: {
-            text: 'HOT',
-            bg: '#BA4C16',
-        },
+        price: 'u{20B9}250.00',
+        badge: { text: 'HOT', bg: '#BA4C16' },
         src: '/neymar.jpeg',
+        category: 'tees',
         description: 'Bold oversized silhouette featuring an iconic Neymar-inspired design. Heavyweight 240gsm cotton.',
         tags: [
             { text: 'HOT' },
             { text: '240 GSM' },
         ],
         filters: ['White', 'Black', 'Blue', 'Popular'],
-        specs: {
-            gsm: '240 GSM',
-            fit: 'Oversized Boxy Silhouette',
-            material: '100% Heavyweight Cotton',
-        },
+        specs: { gsm: '240 GSM', fit: 'Oversized Boxy Silhouette', material: '100% Heavyweight Cotton' },
         hyperlink: '/pages/demon/index.html?product=neymar-tee',
+        sku: 'NEYMAR-TEE-001',
+        stock: 50,
+        totalPieces: 50,
+        status: 'active',
     },
     {
         id: 'demon-tee',
         name: 'Demon Tee',
-        price: '₹250.00',
-        badge: {
-            text: 'LIMITED',
-            bg: '#821515',
-        },
+        price: 'u{20B9}250.00',
+        badge: { text: 'LIMITED', bg: '#821515' },
         src: '/red.jpeg',
+        category: 'tees',
         description: 'Limited edition dark-themed graphic tee. Screen-printed artwork on premium red-washed fabric.',
         tags: [
             { text: 'LIMITED', iconAfter: true },
             { text: 'RED-WASHED' },
         ],
         filters: ['White', 'Black', 'Grey', 'Popular'],
-        specs: {
-            gsm: '280 GSM',
-            fit: 'Oversized Drop-Cut Unisex',
-            material: '100% Japanese Combed Cotton',
-        },
+        specs: { gsm: '280 GSM', fit: 'Oversized Drop-Cut Unisex', material: '100% Japanese Combed Cotton' },
         hyperlink: '/pages/demon/index.html?product=demon-tee',
+        sku: 'DEMON-TEE-001',
+        stock: 20,
+        totalPieces: 20,
+        status: 'active',
     },
-];
+]
 
 // Clean Price Tag SVG Icon
 function TagIcon() {
@@ -192,22 +163,58 @@ function CloseIcon() {
     );
 }
 
+// Shopping Bag Icon
+function BagIcon() {
+    return (
+        <svg
+            width="17"
+            height="17"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        >
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path d="M16 10a4 4 0 0 1-8 0" />
+        </svg>
+    );
+}
+
 export default function Collection() {
+    const { addToCart } = useCart();
     const [activeFilter, setActiveFilter] = useState('White');
     const [liked, setLiked] = useState<Record<string, boolean>>({});
     const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+    const [checkoutProduct, setCheckoutProduct] = useState<Product | null>(null);
     const [mounted, setMounted] = useState(false);
+    const [products, setProducts] = useState<Product[]>(ALL_PRODUCTS);
     const ref = useRef(null);
     const inView = useInView(ref, { once: true, margin: '-60px' });
 
     useEffect(() => {
         setMounted(true);
+        fetch('/api/products')
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.success && Array.isArray(data.products) && data.products.length > 0) {
+                    setProducts(data.products);
+                }
+            })
+            .catch(() => {
+                // Fallback to local default array
+            });
     }, []);
 
     // Close modal on Escape
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') setQuickViewProduct(null);
+            if (e.key === 'Escape') {
+                setQuickViewProduct(null);
+                setCheckoutProduct(null);
+            }
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
@@ -225,9 +232,10 @@ export default function Collection() {
         setQuickViewProduct(product);
     };
 
-    // Filter products based on selected tab; if none match, show full collection
-    const filtered = ALL_PRODUCTS.filter((p) => p.filters.includes(activeFilter));
-    const displayProducts = filtered.length > 0 ? filtered : ALL_PRODUCTS;
+    // Filter products based on selected tab and dynamically sort by admin bonusPoints (highest first)
+    const filtered = products.filter((p) => p.filters && p.filters.includes(activeFilter));
+    const baseList = filtered.length > 0 ? filtered : products;
+    const displayProducts = [...baseList].sort((a, b) => (b.bonusPoints || 0) - (a.bonusPoints || 0));
 
     return (
         <section id="collection" className="collection-section" ref={ref}>
@@ -314,6 +322,31 @@ export default function Collection() {
                                             {product.badge.text}
                                         </span>
 
+                                        {/* Bonus Points Badge if set by admin */}
+                                        {product.bonusPoints !== undefined && product.bonusPoints > 0 && (
+                                            <span
+                                                style={{
+                                                    position: 'absolute',
+                                                    bottom: '12px',
+                                                    left: '12px',
+                                                    background: 'rgba(0, 0, 0, 0.75)',
+                                                    backdropFilter: 'blur(4px)',
+                                                    border: '1px solid rgba(245, 158, 11, 0.5)',
+                                                    color: '#f59e0b',
+                                                    padding: '2px 8px',
+                                                    borderRadius: '4px',
+                                                    fontSize: '0.68rem',
+                                                    fontWeight: 700,
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '3px',
+                                                    zIndex: 3,
+                                                }}
+                                            >
+                                                ★ {product.bonusPoints} PTS
+                                            </span>
+                                        )}
+
                                         {/* Quick View "+" Circle Button */}
                                         <button
                                             type="button"
@@ -352,15 +385,35 @@ export default function Collection() {
                                             ))}
                                         </div>
 
-                                        {/* Actions: Buy Now & Wishlist */}
+                                        {/* Actions: Buy Now, Add to Cart & Wishlist */}
                                         <div className="card-actions-row">
-                                            <a
-                                                href={product.hyperlink + '#collection'}
+                                            <button
+                                                type="button"
                                                 className="card-buy-button"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    setCheckoutProduct(product);
+                                                }}
+                                                aria-label={`Buy ${product.name} now via Razorpay`}
                                             >
                                                 <span>Buy Now</span>
                                                 <ArrowIcon />
-                                            </a>
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                className="card-cart-button"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    addToCart(product, 'L', 1);
+                                                }}
+                                                aria-label={`Add ${product.name} to shopping bag`}
+                                                title="Add to Shopping Bag"
+                                            >
+                                                <BagIcon />
+                                            </button>
 
                                             <button
                                                 type="button"
@@ -453,19 +506,60 @@ export default function Collection() {
                                     ))}
                                 </div>
 
-                                <a
-                                    href={quickViewProduct.hyperlink + '#collection'}
-                                    className="card-buy-button"
-                                    style={{ width: '100%' }}
-                                >
-                                    <span>Buy Now — {quickViewProduct.price}</span>
-                                    <ArrowIcon />
-                                </a>
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.25fr', gap: '0.65rem', marginTop: '0.5rem' }}>
+                                    <button
+                                        type="button"
+                                        style={{
+                                            padding: '0.75rem 1rem',
+                                            borderRadius: '4px',
+                                            background: 'rgba(255, 255, 255, 0.05)',
+                                            border: '1px solid rgba(200, 184, 154, 0.4)',
+                                            color: '#c8b89a',
+                                            fontWeight: 700,
+                                            fontSize: '0.82rem',
+                                            letterSpacing: '0.5px',
+                                            cursor: 'pointer',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            gap: '0.5rem',
+                                            transition: 'all 0.2s ease',
+                                        }}
+                                        onClick={() => {
+                                            addToCart(quickViewProduct, 'L', 1);
+                                            setQuickViewProduct(null);
+                                        }}
+                                    >
+                                        <BagIcon />
+                                        <span>Add to Cart</span>
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        className="card-buy-button"
+                                        style={{ width: '100%', cursor: 'pointer' }}
+                                        onClick={() => {
+                                            const p = quickViewProduct;
+                                            setQuickViewProduct(null);
+                                            setCheckoutProduct(p);
+                                        }}
+                                    >
+                                        <span>Buy Now — {quickViewProduct.price}</span>
+                                        <ArrowIcon />
+                                    </button>
+                                </div>
                             </div>
                         </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            {/* ── RAZORPAY CHECKOUT MODAL ── */}
+            <CheckoutModal
+                isOpen={!!checkoutProduct}
+                onClose={() => setCheckoutProduct(null)}
+                product={checkoutProduct}
+            />
         </section>
     );
 }

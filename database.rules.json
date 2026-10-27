@@ -1,0 +1,70 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "orders": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": ["createdAt", "status", "customerEmail"],
+      "$orderId": {
+        ".validate": "newData.hasChildren(['id', 'totalAmount', 'status', 'items'])",
+        "id": {
+          ".validate": "newData.isString()"
+        },
+        "totalAmount": {
+          ".validate": "newData.isNumber() && newData.val() >= 0"
+        },
+        "status": {
+          ".validate": "newData.val() == 'pending' || newData.val() == 'paid' || newData.val() == 'failed'"
+        }
+      }
+    },
+
+    "users": {
+      ".read": true,
+      "$uid": {
+        ".read": true,
+        ".write": "auth != null && auth.uid == $uid || auth == null",
+        ".validate": "newData.hasChildren(['uid', 'createdAt'])",
+        "uid": {
+          ".validate": "newData.isString()"
+        },
+        "email": {
+          ".validate": "newData.isString() || !newData.exists()"
+        },
+        "loyaltyPoints": {
+          ".validate": "newData.isNumber() && newData.val() >= 0"
+        },
+        "profileComplete": {
+          ".validate": "newData.isBoolean()"
+        },
+        "provider": {
+          ".validate": "newData.val() == 'google' || newData.val() == 'phone' || newData.val() == 'email'"
+        }
+      },
+      ".indexOn": ["createdAt", "provider", "profileComplete", "email"]
+    },
+
+    "analytics": {
+      ".read": true,
+      ".write": true
+    },
+
+    "products": {
+      ".read": true,
+      ".write": true,
+      ".indexOn": ["status", "category", "bonusPoints"]
+    },
+
+    "visitors": {
+      ".read": true,
+      ".write": true
+    },
+
+    "admin_config": {
+      ".read": true,
+      ".write": "auth != null && auth.token.email == 'bannnedshop@gmail.com'"
+    }
+  }
+}

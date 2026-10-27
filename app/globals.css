@@ -1469,6 +1469,32 @@ a {
   transform: scale(0.99);
 }
 
+.card-cart-button {
+  width: 46px;
+  height: 46px;
+  background: rgba(200, 184, 154, 0.08);
+  border: 1px solid rgba(200, 184, 154, 0.35);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #c8b89a;
+  flex-shrink: 0;
+}
+
+.card-cart-button:hover {
+  background: #c8b89a;
+  color: #0c0e14;
+  border-color: #c8b89a;
+  transform: translateY(-1px);
+}
+
+.card-cart-button:active {
+  transform: scale(0.96);
+}
+
 .card-wishlist-button {
   width: 46px;
   height: 46px;

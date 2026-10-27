@@ -1,5 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { AuthProvider } from "@/lib/authContext";
+import { CartProvider } from "@/lib/cartContext";
+import CartDrawer from "@/components/CartDrawer";
+import VisitorTracker from "@/components/VisitorTracker";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -25,7 +29,15 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        <AuthProvider>
+          <CartProvider>
+            <VisitorTracker />
+            {children}
+            <CartDrawer />
+          </CartProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }
