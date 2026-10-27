@@ -1267,7 +1267,7 @@ function AdminDashboardContent({ adminUser, onSignOut }: { adminUser: FirebaseUs
                                         <div className="dd-chart-gridline" style={{ bottom: '0%' }} />
 
                                         <div className="dd-barchart-container">
-                                            {habitBars.map((bar) => {
+                                            {habitBars.map((bar: any) => {
                                                 const isSelected = hoveredMonth === bar.month;
                                                 return (
                                                     <div
@@ -1752,7 +1752,7 @@ function AdminDashboardContent({ adminUser, onSignOut }: { adminUser: FirebaseUs
                                 <h2 style={{ fontSize: '1.4rem', fontWeight: 800, margin: 0 }}>Customer Invoices &amp; Orders</h2>
                                 <p style={{ fontSize: '0.8rem', color: 'var(--dd-text-faint)', margin: '2px 0 0' }}>Captured via Razorpay Payment Gateway</p>
                             </div>
-                            <button className="dd-btn-secondary" onClick={loadAnalytics}>
+                            <button className="dd-btn-secondary" onClick={() => loadAnalytics(false)}>
                                 Refresh
                             </button>
                         </div>
